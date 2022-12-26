@@ -22,7 +22,6 @@ func getDir(name string, parent *directory) *directory {
 	return &directory{name: name, size: 0, parent: parent, children: []*directory{}}
 }
 
-// 1443806
 func main() {
 	file, err := os.Open("./Day7/input.txt")
 	if err != nil {
