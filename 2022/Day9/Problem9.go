@@ -73,30 +73,30 @@ func main() {
 }
 
 func moveTail(tail *point, head point) {
-	xdirection := unitVector(tail.x, head.x)
-	ydirection := unitVector(tail.y, head.y)
+	xDirection := unitVector(tail.x, head.x)
+	yDirection := unitVector(tail.y, head.y)
 	scale := 1
 	if tail.x == head.x {
-		tail.y += ydirection * scale
+		tail.y += yDirection * scale
 		return
 	}
 	if tail.y == head.y {
-		tail.x += xdirection * scale
+		tail.x += xDirection * scale
 		return
 	}
-	if xdirection == 0 && ydirection == 0 {
+	if xDirection == 0 && yDirection == 0 {
 		return
 	}
 	// diagonal > 1
-	if xdirection == 0 {
-		xdirection = sign(tail.x, head.x)
+	if xDirection == 0 {
+		xDirection = sign(tail.x, head.x)
 	}
-	if ydirection == 0 {
-		ydirection = sign(tail.y, head.y)
+	if yDirection == 0 {
+		yDirection = sign(tail.y, head.y)
 	}
 
-	tail.x += xdirection * scale
-	tail.y += ydirection * scale
+	tail.x += xDirection * scale
+	tail.y += yDirection * scale
 
 }
 
