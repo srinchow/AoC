@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/srinchow/adventOfCode/utils"
+	"github.com/srinchow/adventOfCode/utils/file"
 	"os"
 	"strconv"
 	"strings"
@@ -52,14 +52,14 @@ func (ranges rt) overlaps(otherRange *rt) bool {
 }
 
 func main() {
-	f, err := os.Open("./Day4/input.txt")
+	f, err := os.Open("./2022/Day4/input.txt")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error while opening file %v", f))
 		return
 	}
 
-	defer utils.CloseFile(f)
-	temp := utils.ParseFile(f)
+	defer file.CloseFile(f)
+	temp := file.ParseFile(f)
 	pairs := temp[0]
 	part1(pairs)
 	part2(pairs)

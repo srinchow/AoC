@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/srinchow/adventOfCode/utils"
+	"github.com/srinchow/adventOfCode/utils/file"
 	"os"
 	"strings"
 )
@@ -50,13 +50,13 @@ func part2(strategyGuide []string, playerMoveMap map[string]string, gameWinRules
 }
 
 func main() {
-	file, err := os.Open("./Day2/input.txt")
+	f, err := os.Open("./2022/Day2/input.txt")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error opening file %v", err))
 	}
-	defer utils.CloseFile(file)
+	defer file.CloseFile(f)
 
-	moves := utils.ParseFile(file)
+	moves := file.ParseFile(f)
 	rockPaperScissor := cretePlayerMoveMap()
 	gameRules := createGameRulesWinMap()
 

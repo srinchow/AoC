@@ -1,4 +1,4 @@
-package utils
+package collection
 
 type node struct {
 	val  rune

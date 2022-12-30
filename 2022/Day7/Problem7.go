@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/srinchow/adventOfCode/utils"
+	"github.com/srinchow/adventOfCode/utils/file"
 	"os"
 	"strconv"
 	"strings"
@@ -23,14 +23,14 @@ func getDir(name string, parent *directory) *directory {
 }
 
 func main() {
-	file, err := os.Open("./Day7/input.txt")
+	f, err := os.Open("./2022/Day7/input.txt")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error opening file %v", err))
 		return
 	}
-	defer utils.CloseFile(file)
+	defer file.CloseFile(f)
 
-	lines := utils.ParseFile(file)[0]
+	lines := file.ParseFile(f)[0]
 	dirStructure := getDir("", nil)
 
 	buildDirectoryStructure(lines, dirStructure)

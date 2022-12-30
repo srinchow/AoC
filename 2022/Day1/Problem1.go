@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/srinchow/adventOfCode/utils"
+	"github.com/srinchow/adventOfCode/utils/file"
 	"math"
 	"os"
 	"sort"
@@ -53,13 +53,13 @@ func part2(calories [][]string) int {
 }
 
 func main() {
-	f, err := os.Open("./Day1/input.txt")
+	f, err := os.Open("./2022/Day1/input.txt")
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error opening file %v", err))
 		return
 	}
-	defer utils.CloseFile(f)
-	calories := utils.ParseFile(f)
+	defer file.CloseFile(f)
+	calories := file.ParseFile(f)
 	r1 := part1(calories)
 	r2 := part2(calories)
 

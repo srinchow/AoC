@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/srinchow/adventOfCode/utils"
+	"github.com/srinchow/adventOfCode/utils/file"
 	"os"
 )
 
 func main() {
-	file, err := os.Open("./Day3/input.txt")
+	f, err := os.Open("./2022/Day3/input.txt")
 
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error opening file %v", err))
 	}
 
-	defer utils.CloseFile(file)
+	defer file.CloseFile(f)
 
-	data := utils.ParseFile(file)
+	data := file.ParseFile(f)
 	rucksacks := data[0]
 
 	part1(rucksacks)

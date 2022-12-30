@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/srinchow/adventOfCode/utils"
+	"github.com/srinchow/adventOfCode/utils/collection"
+	"github.com/srinchow/adventOfCode/utils/file"
 	"os"
 	"regexp"
 	"strconv"
@@ -17,23 +18,23 @@ func getInt(s string) int {
 }
 
 func main() {
-	file, err := os.Open("./Day5/input.txt")
+	f, err := os.Open("./2022/Day5/input.txt")
 
 	if err != nil {
 		fmt.Println(fmt.Sprintf("Error opening file %v", err))
 	}
 
-	defer utils.CloseFile(file)
+	defer file.CloseFile(f)
 
-	response := utils.ParseFile(file)
+	response := file.ParseFile(f)
 
 	movements := response[1]
 	stackArrangement := response[0]
 
-	var stacks []*utils.Stack
+	var stacks []*collection.Stack
 
 	for range stackArrangement[len(stackArrangement)-1] {
-		stacks = append(stacks, &utils.Stack{})
+		stacks = append(stacks, &collection.Stack{})
 	}
 
 	for i := len(stackArrangement) - 2; i >= 0; i-- {
@@ -57,7 +58,7 @@ func main() {
 
 }
 
-func part1(movements []string, stacks []*utils.Stack, r *regexp.Regexp) {
+func part1(movements []string, stacks []*collection.Stack, r *regexp.Regexp) {
 	for _, val := range movements {
 		if val == "" {
 			continue
@@ -80,7 +81,7 @@ func part1(movements []string, stacks []*utils.Stack, r *regexp.Regexp) {
 
 }
 
-func part2(movements []string, stacks []*utils.Stack, r *regexp.Regexp) {
+func part2(movements []string, stacks []*collection.Stack, r *regexp.Regexp) {
 	for _, val := range movements {
 		if val == "" {
 			continue
