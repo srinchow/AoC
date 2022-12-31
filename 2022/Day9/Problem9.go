@@ -9,10 +9,21 @@ import (
 	"strings"
 )
 
-type point struct {
+type Point struct {
 	x int
 	y int
 }
+
+func (p *Point) add(q Point) {
+	p.x += q.x
+	p.y += q.y
+}
+
+func (p *Point) String() string {
+	return fmt.Sprintf("%v,%v", p.x, p.y)
+}
+
+type rope []Point
 
 func main() {
 	f, err := os.Open("./2022/Day9/input.txt")
@@ -24,9 +35,17 @@ func main() {
 
 	movements := file.ParseFile(f)[0]
 
-	head, tail := point{x: 0, y: 0}, point{x: 0, y: 0}
+	r := make(rope, 0)
 
-	positions := map[string]bool{"0,0": true}
+	r = append(r, Point{x: 0, y: 0}) // adding head node
+
+	tailLength := 9
+
+	for i := 0; i < tailLength; i++ {
+		r = append(r, Point{x: 0, y: 0})
+	}
+
+	lastTailPositions := map[string]bool{"0,0": true}
 
 	for _, val := range movements {
 		direction, distance := getVector(val)
@@ -34,45 +53,42 @@ func main() {
 		switch direction {
 		case "U":
 			{
-				for i := 1; i <= distance; i++ {
-					head.y += 1
-					moveTail(&tail, head)
-					positions[fmt.Sprintf("%v,%v", tail.x, tail.y)] = true
-				}
+				moveTails(Point{0, 1}, distance, lastTailPositions, r)
 			}
 		case "D":
 			{
-				for i := 1; i <= distance; i++ {
-					head.y -= 1
-					moveTail(&tail, head)
-					positions[fmt.Sprintf("%v,%v", tail.x, tail.y)] = true
-				}
+				moveTails(Point{0, -1}, distance, lastTailPositions, r)
 			}
 		case "L":
 			{
-				for i := 1; i <= distance; i++ {
-					head.x -= 1
-					moveTail(&tail, head)
-					positions[fmt.Sprintf("%v,%v", tail.x, tail.y)] = true
-				}
+				moveTails(Point{-1, 0}, distance, lastTailPositions, r)
 			}
 		case "R":
 			{
-				for i := 1; i <= distance; i++ {
-					head.x += 1
-					moveTail(&tail, head)
-					positions[fmt.Sprintf("%v,%v", tail.x, tail.y)] = true
-				}
-
+				moveTails(Point{1, 0}, distance, lastTailPositions, r)
 			}
 		}
 
 	}
 
-	fmt.Println(len(positions))
+	fmt.Println(len(lastTailPositions))
 }
 
-func moveTail(tail *point, head point) {
+func moveTails(displacement Point, scale int, positions map[string]bool, r rope) {
+	if len(r) < 2 {
+		panic("INCORRECT ROPE LENGTH")
+	}
+	for i := 0; i < scale; i++ {
+		r[0].add(displacement)
+		for j := 1; j < len(r); j++ {
+			moveTail(&r[j], r[j-1])
+		}
+		t := r[len(r)-1].String()
+		positions[t] = true
+	}
+}
+
+func moveTail(tail *Point, head Point) {
 	xDirection := unitVector(tail.x, head.x)
 	yDirection := unitVector(tail.y, head.y)
 	scale := 1
