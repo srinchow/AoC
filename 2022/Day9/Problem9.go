@@ -36,11 +36,9 @@ func main() {
 	movements := file.ParseFile(f)[0]
 
 	r := make(rope, 0)
-
 	r = append(r, Point{x: 0, y: 0}) // adding head node
 
 	tailLength := 9
-
 	for i := 0; i < tailLength; i++ {
 		r = append(r, Point{x: 0, y: 0})
 	}
@@ -83,7 +81,7 @@ func moveTails(displacement Point, scale int, positions map[string]bool, r rope)
 		for j := 1; j < len(r); j++ {
 			moveTail(&r[j], r[j-1])
 		}
-		t := r[len(r)-1].String()
+		t := fmt.Sprint(&r[len(r)-1])
 		positions[t] = true
 	}
 }
