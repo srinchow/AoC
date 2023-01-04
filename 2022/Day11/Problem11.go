@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type Test func(int) bool
+type predicate func(int) bool
 type transformer func(int) int
 
 func plus(a int) transformer {
@@ -32,9 +32,17 @@ func square() transformer {
 type monkey struct {
 	startingItems    collection.Queue
 	worryOperation   transformer
-	test             Test
+	test             predicate
 	success, failure int
 	id               int
+	score            int
+}
+
+func (m *monkey) hasItem() (int, bool) {
+	if m.startingItems.Length() == 0 {
+		return -1, false
+	}
+	return m.startingItems.Pop(), true
 }
 
 func main() {
@@ -53,6 +61,41 @@ func main() {
 		monkeys = append(monkeys, parse(data))
 	}
 
+	for i := 0; i < 20; i++ {
+		simulateRound(monkeys)
+	}
+
+	scores := make([]int, 8)
+
+	for idx := range monkeys {
+		scores[idx] = monkeys[idx].score
+	}
+
+	fmt.Println(scores)
+
+}
+
+func simulateRound(monkeys []*monkey) {
+	for _, m := range monkeys {
+		for true {
+			item, ok := m.hasItem()
+			if !ok {
+				break
+			}
+			res := (m.worryOperation(item)) / 3
+			nextMonkey := m.failure
+			if m.test(res) {
+				nextMonkey = m.success
+			}
+			for _, m1 := range monkeys {
+				if m1.id == nextMonkey {
+					m1.startingItems.Push(res)
+					break
+				}
+			}
+			m.score++
+		}
+	}
 }
 
 func parse(data []string) *monkey {
