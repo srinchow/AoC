@@ -53,8 +53,8 @@ func main() {
 	var dest point
 	var q queue
 
-	startingPoint := 'S'
-	endingPoint := 'E'
+	startingPoint := 'E'
+	endingPoint := 'S'
 	for i, row := range parsedData {
 		var r []int
 		for j, val := range row {
@@ -77,14 +77,10 @@ func main() {
 		{x: 0, y: -1}, // left
 	}
 
-	bfs(q, visited, displacements, mat, dest, point.equal)
-	/*
-		bfs(q, visited, displacements, mat, dest, func(p point, p2 point) bool {
-
-			return mat[p.x][p.y] == 0
-		})
-
-	*/
+	//bfs(q, visited, displacements, mat, dest, point.equal)
+	bfs(q, visited, displacements, mat, dest, func(p point, p2 point) bool {
+		return mat[p.x][p.y] <= 0
+	})
 
 }
 
@@ -127,7 +123,7 @@ func isValid(nextPoint point, front point, mat [][]int) bool {
 		return true
 	}
 
-	if mat[nextPoint.x][nextPoint.y] > mat[front.x][front.y]+1 {
+	if mat[nextPoint.x][nextPoint.y]+1 < mat[front.x][front.y] {
 		return false
 	}
 
